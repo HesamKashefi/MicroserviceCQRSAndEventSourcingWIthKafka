@@ -13,6 +13,8 @@ using Post.Cmd.Infrastructure.Stores;
 var builder = WebApplication.CreateBuilder(args);
 
 
+builder.Services.AddControllers();
+
 builder.Services.Configure<MongoConfig>(builder.Configuration.GetSection(nameof(MongoConfig)));
 builder.Services.Configure<ProducerConfig>(builder.Configuration.GetSection(nameof(ProducerConfig)));
 builder.Services.AddScoped<IEventStoreRepository, EventStoreRepository>();

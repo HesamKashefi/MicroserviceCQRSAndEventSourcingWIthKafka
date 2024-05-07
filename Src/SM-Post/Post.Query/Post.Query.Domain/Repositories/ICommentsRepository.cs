@@ -8,5 +8,5 @@ public interface ICommentsRepository
     Task UpdateAsync(CommentEntity commentEntity);
     Task DeleteAsync(CommentEntity commentEntity);
 
-    Task<PostEntity> GetByIdAsync(Guid commentId);
+    Task<CommentEntity?> GetByIdAsync(Guid commentId);
 }

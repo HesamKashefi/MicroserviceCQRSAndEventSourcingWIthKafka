@@ -7,7 +7,7 @@ public interface IPostRepository
     Task UpdateAsync(PostEntity postEntity);
     Task DeleteAsync(PostEntity postEntity);
 
-    Task<PostEntity> GetByIdAsync();
+    Task<PostEntity?> GetByIdAsync(Guid postId);
     Task<PostEntity[]> ListAllAsync();
     Task<PostEntity[]> ListByAuthorAsync(string author);
     Task<PostEntity[]> ListByLikesAsync(int numberOfLikes);

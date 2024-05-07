@@ -39,7 +39,7 @@ namespace Post.Cmd.Infrastructure.Stores
             {
                 var model = new EventModel
                 {
-                    AggregateIdentified = aggregateId,
+                    AggregateIdentifier = aggregateId,
                     AggregateType = nameof(PostAggregate),
                     EventType = @event.GetType().Name,
                     EventData = @event,

@@ -19,7 +19,7 @@ namespace Post.Cmd.Infrastructure.Repositories
         public async Task<List<EventModel>> FindByAggregateIdAsync(Guid aggregateId)
         {
             return await _collection
-            .Find(x => x.AggregateIdentified == aggregateId)
+            .Find(x => x.AggregateIdentifier == aggregateId)
             .ToListAsync()
             .ConfigureAwait(false);
         }

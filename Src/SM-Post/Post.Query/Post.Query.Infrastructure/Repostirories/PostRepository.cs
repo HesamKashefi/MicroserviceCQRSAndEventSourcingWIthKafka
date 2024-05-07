@@ -4,7 +4,7 @@ using Post.Query.Domain.Repositories;
 using Post.Query.Infrastructure.DataAccess;
 
 namespace Post.Query.Infrastructure.Repostirories;
-public class PostRepostirory(DatabaseContextFactory databaseContextFactory) : IPostRepository
+public class PostRepository(DatabaseContextFactory databaseContextFactory) : IPostRepository
 {
     private readonly DatabaseContextFactory _databaseContextFactory = databaseContextFactory;
 

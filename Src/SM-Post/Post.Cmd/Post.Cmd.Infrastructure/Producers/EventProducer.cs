@@ -24,7 +24,7 @@ public class EventProducer(IOptions<ProducerConfig> options) : IEventProducer
 
         var deliveryResult = await producer.ProduceAsync(topic, message);
 
-        if (deliveryResult.Status != PersistenceStatus.NotPersisted)
+        if (deliveryResult.Status == PersistenceStatus.NotPersisted)
         {
             throw new Exception($"Could not produce event: '{@event.GetType().Name}' to topic: '{topic}' due to reason: '{deliveryResult.Message}'");
         }

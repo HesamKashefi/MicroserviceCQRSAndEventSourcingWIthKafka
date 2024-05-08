@@ -11,7 +11,7 @@ namespace Post.Cmd.Infrastructure.Repositories
         private readonly IMongoCollection<EventModel> _collection;
         public EventStoreRepository(IOptions<MongoConfig> options)
         {
-            var client = new MongoClient(options.Value.ConnnectionString);
+            var client = new MongoClient(options.Value.ConnectionString);
             var db = client.GetDatabase(options.Value.Database);
             _collection = db.GetCollection<EventModel>(options.Value.Collection);
         }

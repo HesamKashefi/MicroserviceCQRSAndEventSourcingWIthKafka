@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Post.Cmd.Api.Commands;
+using Post.Cmd.Api.Common.Constants;
 using Post.Cmd.Infrastructure.Dispatchers;
 using Post.Common.DTOs;
 
@@ -19,14 +16,33 @@ namespace Post.Cmd.Api.Controllers
         [HttpPost("{id}")]
         public async Task<ActionResult> EditMessageAsync(Guid id, EditMessageCommand command)
         {
-            command.Id = id;
-
-            await _dispatcher.SendAsync(command);
-
-            return StatusCode(StatusCodes.Status201Created, new BaseResponse
+            try
             {
-                Message = "Edit request message completed successfully"
-            });
+                command.Id = id;
+
+                await _dispatcher.SendAsync(command);
+
+                return StatusCode(StatusCodes.Status201Created, new BaseResponse
+                {
+                    Message = ApiMessages.Success
+                });
+            }
+            catch(InvalidOperationException e)
+            {
+                _logger.LogWarning(e, ErrorMessages.ClientBadRequest);
+                return StatusCode(StatusCodes.Status400BadRequest, new BaseResponse
+                {
+                    Message = ErrorMessages.BadInput
+                });
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e, ErrorMessages.FailedToCreatePost);
+                return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse
+                {
+                    Message = ErrorMessages.ErrorWhileProcessingRequest
+                });
+            }            
         }
     }
 }

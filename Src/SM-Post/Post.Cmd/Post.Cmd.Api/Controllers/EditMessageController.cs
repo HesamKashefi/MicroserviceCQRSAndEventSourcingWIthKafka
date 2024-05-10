@@ -27,7 +27,7 @@ namespace Post.Cmd.Api.Controllers
                     Message = ApiMessages.Success
                 });
             }
-            catch(InvalidOperationException e)
+            catch (InvalidOperationException e)
             {
                 _logger.LogWarning(e, ErrorMessages.ClientBadRequest);
                 return StatusCode(StatusCodes.Status400BadRequest, new BaseResponse
@@ -35,14 +35,14 @@ namespace Post.Cmd.Api.Controllers
                     Message = ErrorMessages.BadInput
                 });
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _logger.LogError(e, ErrorMessages.FailedToCreatePost);
                 return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse
                 {
                     Message = ErrorMessages.ErrorWhileProcessingRequest
                 });
-            }            
+            }
         }
     }
 }

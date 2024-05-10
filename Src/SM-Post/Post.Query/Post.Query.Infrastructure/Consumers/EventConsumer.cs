@@ -31,14 +31,12 @@ namespace Post.Query.Infrastructure.Consumers
 
                 var @event = JsonSerializer.Deserialize<BaseEvent>(consumeResult.Message.Value, jsonOptions);
 
-                var method = _eventHandler.GetType().GetMethod("On", [@event!.GetType()]);
-
-                if (method is null)
-                {
+                var method = _eventHandler.GetType().GetMethod("On", [@event!.GetType()]) ??
                     throw new InvalidOperationException($"Could not fine the 'On' on {nameof(IEventHandler)} method for event : '{@event!.GetType().Name}'");
-                }
 
                 method.Invoke(_eventHandler, [@event]);
+
+                consumer.Commit(consumeResult);
             }
         }
     }

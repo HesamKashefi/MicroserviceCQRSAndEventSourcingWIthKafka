@@ -1,10 +1,12 @@
-﻿using CQRS.Core.Domain;
+﻿using Confluent.Kafka;
+
+using CQRS.Core.Domain;
 using CQRS.Core.Handlers;
 using CQRS.Core.Infrastructure;
 using CQRS.Core.Producers;
-
 using Post.Cmd.Api.Commands;
 using Post.Cmd.Domain.Aggregates;
+using Post.Cmd.Infrastructure.Config;
 using Post.Cmd.Infrastructure.Dispatchers;
 using Post.Cmd.Infrastructure.Handlers;
 using Post.Cmd.Infrastructure.Producers;
@@ -15,9 +17,12 @@ namespace Post.Cmd.Api.Extensions.HostingExtensions;
 
 public static class HostingExtension
 {
-    public static IServiceCollection AddServices(this IServiceCollection services)
+    public static IServiceCollection AddServices(this IServiceCollection services, WebApplicationBuilder builder)
     {
         services.AddControllers();
+
+        services.Configure<MongoConfig>(builder.Configuration.GetSection(nameof(MongoConfig)));
+        services.Configure<ProducerConfig>(builder.Configuration.GetSection(nameof(ProducerConfig)));
 
         services.AddScoped<IEventStoreRepository, EventStoreRepository>();
         services.AddScoped<IEventStore, EventStore>();

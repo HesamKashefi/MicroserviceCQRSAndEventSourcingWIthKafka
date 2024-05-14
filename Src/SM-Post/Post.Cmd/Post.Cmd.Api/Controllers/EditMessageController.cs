@@ -1,3 +1,4 @@
+using CQRS.Core.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Post.Cmd.Api.Commands;
 using Post.Cmd.Api.Common.Constants;
@@ -13,7 +14,7 @@ namespace Post.Cmd.Api.Controllers
         private readonly ICommandDispatcher _dispatcher = dispatcher;
         private readonly ILogger<EditMessageController> _logger = logger;
 
-        [HttpPost("{id}")]
+        [HttpPut("{id}")]
         public async Task<ActionResult> EditMessageAsync(Guid id, EditMessageCommand command)
         {
             try
@@ -30,6 +31,14 @@ namespace Post.Cmd.Api.Controllers
             catch (InvalidOperationException e)
             {
                 _logger.LogWarning(e, ErrorMessages.ClientBadRequest);
+                return StatusCode(StatusCodes.Status400BadRequest, new BaseResponse
+                {
+                    Message = ErrorMessages.BadInput
+                });
+            }
+            catch (AggregateNotFoundException e)
+            {
+                _logger.LogWarning(e, ErrorMessages.AggregateNotFound);
                 return StatusCode(StatusCodes.Status400BadRequest, new BaseResponse
                 {
                     Message = ErrorMessages.BadInput

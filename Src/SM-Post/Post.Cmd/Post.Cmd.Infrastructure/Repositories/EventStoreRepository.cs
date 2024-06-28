@@ -20,6 +20,7 @@ namespace Post.Cmd.Infrastructure.Repositories
         {
             return await _collection
             .Find(x => x.AggregateIdentifier == aggregateId)
+            .SortBy(x => x.Version)
             .ToListAsync()
             .ConfigureAwait(false);
         }

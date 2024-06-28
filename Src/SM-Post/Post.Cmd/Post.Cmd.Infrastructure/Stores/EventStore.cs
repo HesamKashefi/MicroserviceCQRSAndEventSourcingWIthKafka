@@ -35,6 +35,8 @@ namespace Post.Cmd.Infrastructure.Stores
 
             var version = expectedVersion;
 
+            var topic = Environment.GetEnvironmentVariable("KAFKA_TOPIC") ?? throw new InvalidOperationException("KAFKA_TOPIC Environment Variable was not found!");
+
             foreach (var @event in events)
             {
                 var model = new EventModel
@@ -49,7 +51,6 @@ namespace Post.Cmd.Infrastructure.Stores
 
                 await _eventStoreRepository.SaveAsync(model);
 
-                var topic = Environment.GetEnvironmentVariable("KAFKA_TOPIC") ?? throw new InvalidOperationException("KAFKA_TOPIC Environment Variable was not found!");
                 await _eventProducer.Produce(topic, @event);
             }
 
